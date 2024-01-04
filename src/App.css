@@ -1,38 +1,120 @@
-.App {
-  text-align: center;
+/* App.css */
+.AppContainer {
+  text-align: center; /* Center align content */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+button {
+  background-color: #3498db; /* Blue color for the button */
   color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
+
+/* Loader styles */
+.LoaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-@keyframes App-logo-spin {
-  from {
+.Loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }
+
+/* FailureView styles */
+.FailureContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.FailureMessage {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.RetryButton {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.RetryButton:hover {
+  background-color: #2980b9;
+}
+
+.ListContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+.head{
+  text-align: center;
+
+}
+.ListContainersWrapper {
+  display: flex;
+  width: 600px;
+}
+
+.ListContainerBox {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  flex: 1;
+  background-color: #daeefc;
+  border-radius: 10px;
+  overflow: auto;
+  height: 520px; 
+}
+
+.ListContainerBox h3 {
+  text-align: left;
+}
+
+.ListItemsContainer {
+  display: grid;
+  gap: 10px;
+}
+
+.ListItemBox {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  width: auto;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ListItemBox span {
+  font-weight: bold; 
+}
+

@@ -4,15 +4,33 @@ const ListContainer = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [lists, setLists] = useState([]);
+//   const [showList3, setShowList3] = useState(false);
   const [showNewList, setShowNewList] = useState(false);
   const [newListItems, setNewListItems] = useState([]);
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({
     list1: false,
     list2: false,
   });
+  const [showList3, setShowList3] = useState(false);
 
   useEffect(() => {
     fetchListCreationAPI();
+  }, []);
+  
+  useEffect(() => {
+    const list1Items = lists.filter(item => item.list_number === 1);
+    const list2Items = lists.filter(item => item.list_number === 2);
+  
+    localStorage.setItem('list1Items', JSON.stringify(list1Items));
+    localStorage.setItem('list2Items', JSON.stringify(list2Items));
+  }, [lists]);
+  
+  // Load List 1 and List 2 items from local storage when the component mounts
+  useEffect(() => {
+    const list1Items = JSON.parse(localStorage.getItem('list1Items')) || [];
+    const list2Items = JSON.parse(localStorage.getItem('list2Items')) || [];
+  
+    setLists([...list1Items, ...list2Items]);
   }, []);
 
   const fetchListCreationAPI = () => {
@@ -47,9 +65,10 @@ const ListContainer = () => {
     const selectedCount = Object.values(selectedCheckboxes).filter(
       checkbox => checkbox
     ).length;
-
+  
     if (selectedCount === 2) {
       setShowNewList(true);
+      setShowList3(false); // Add this line
       setNewListItems([]);
       resetSelectedCheckboxes();
     } else {
@@ -62,12 +81,12 @@ const ListContainer = () => {
     setNewListItems([]);
   };
 
-  const handleUpdate = () => {
-    setShowNewList(false);
-    setLists([...lists, ...newListItems]);
-    setNewListItems([]);
-  };
-
+const handleUpdate = () => {
+  setShowNewList(false);
+  setShowList3(true);
+  setLists([...lists, ...newListItems]);
+  setNewListItems([]);
+};
   const moveToNewList = (item) => {
     // Remove the item from its current list
     const updatedLists = lists.filter(listItem => listItem.id !== item.id);
@@ -76,8 +95,9 @@ const ListContainer = () => {
     const newItem = { ...item, list_number: 3 };
     updatedLists.push(newItem);
   
-    // Update the lists state
+    // Update the lists and newListItems state
     setLists(updatedLists);
+    setNewListItems(prevItems => [...prevItems, newItem]);
   };
 
   const handleCheckboxChange = listNumber => {
@@ -205,6 +225,22 @@ const ListContainer = () => {
                 ))}
             </div>
           </div>
+          
+          {showList3 && (
+  <div className="ListContainerBox">
+    <h3>List 3 ({lists.filter(item => item.list_number === 3).length})</h3>
+    <div className="ListItemsContainer">
+      {lists
+        .filter(item => item.list_number === 3)
+        .map(item => (
+          <div key={item.id} className="ListItemBox">
+            <span>{item.name}</span>
+            <p>{item.description}</p>
+          </div>
+        ))}
+    </div>
+  </div>
+)}
         </div>
       )}
       {showNewList && (
